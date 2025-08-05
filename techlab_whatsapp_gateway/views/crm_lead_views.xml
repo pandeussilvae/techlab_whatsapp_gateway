@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend CRM Lead Form View -->
+    <record id="view_crm_lead_form_whatsapp" model="ir.ui.view">
+        <field name="name">crm.lead.form.whatsapp</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Add WhatsApp button to button box -->
+            <div name="button_box" position="inside">
+                <button name="action_send_whatsapp" type="object" class="oe_stat_button" icon="fa-whatsapp" string="Send WhatsApp"/>
+                <button name="action_view_whatsapp_logs" type="object" class="oe_stat_button" icon="fa-envelope" attrs="{'invisible': [('whatsapp_log_count', '=', 0)]}">
+                    <field name="whatsapp_log_count" widget="statinfo" string="WhatsApp"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+    <!-- Extend CRM Lead Tree View -->
+    <record id="view_crm_lead_tree_whatsapp" model="ir.ui.view">
+        <field name="name">crm.lead.tree.whatsapp</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="arch" type="xml">
+            <field name="phone" position="after">
+                <field name="whatsapp_log_count" string="WhatsApp" optional="hide"/>
+            </field>
+        </field>
+    </record>
+</odoo>

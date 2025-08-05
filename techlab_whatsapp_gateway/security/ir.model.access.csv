@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_whatsapp_gateway_user,whatsapp.gateway.user,model_whatsapp_gateway,base.group_user,1,0,0,0
+access_whatsapp_gateway_system,whatsapp.gateway.system,model_whatsapp_gateway,base.group_system,1,1,1,1
+access_whatsapp_external_gateway_user,whatsapp.external.gateway.user,model_whatsapp_external_gateway,base.group_user,1,0,0,0
+access_whatsapp_external_gateway_system,whatsapp.external.gateway.system,model_whatsapp_external_gateway,base.group_system,1,1,1,1
+access_whatsapp_meta_gateway_user,whatsapp.meta.gateway.user,model_whatsapp_meta_gateway,base.group_user,1,0,0,0
+access_whatsapp_meta_gateway_system,whatsapp.meta.gateway.system,model_whatsapp_meta_gateway,base.group_system,1,1,1,1
+access_whatsapp_gateway_log_user,whatsapp.gateway.log.user,model_whatsapp_gateway_log,base.group_user,1,0,0,0
+access_whatsapp_gateway_log_system,whatsapp.gateway.log.system,model_whatsapp_gateway_log,base.group_system,1,1,1,1
+access_whatsapp_template_user,whatsapp.template.user,model_whatsapp_template,base.group_user,1,1,1,0
+access_whatsapp_template_system,whatsapp.template.system,model_whatsapp_template,base.group_system,1,1,1,1
+access_whatsapp_send_wizard_user,whatsapp.send.wizard.user,model_whatsapp_send_wizard,base.group_user,1,1,1,1
