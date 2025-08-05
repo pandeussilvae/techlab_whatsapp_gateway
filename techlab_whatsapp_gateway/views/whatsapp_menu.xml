@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main WhatsApp Menu -->
+    <menuitem id="menu_whatsapp_root" name="WhatsApp" sequence="80" web_icon="techlab_whatsapp_gateway,static/description/icon.png"/>
+    
+    <!-- Gateway Management -->
+    <menuitem id="menu_whatsapp_gateways" name="Gateways" parent="menu_whatsapp_root" sequence="10"/>
+    
+    <!-- Templates -->
+    <menuitem id="menu_whatsapp_templates" name="Templates" parent="menu_whatsapp_root" sequence="20"/>
+    
+    <!-- Logs and Monitoring -->
+    <menuitem id="menu_whatsapp_logs" name="Message Logs" parent="menu_whatsapp_root" sequence="30"/>
+    
+    <!-- Configuration -->
+    <menuitem id="menu_whatsapp_config" name="Configuration" parent="menu_whatsapp_root" sequence="90"/>
+</odoo>

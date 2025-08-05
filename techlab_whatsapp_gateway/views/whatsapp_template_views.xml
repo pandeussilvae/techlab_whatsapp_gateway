@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- WhatsApp Template Tree View -->
+    <record id="view_whatsapp_template_tree" model="ir.ui.view">
+        <field name="name">whatsapp.template.tree</field>
+        <field name="model">whatsapp.template</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="gateway_type"/>
+                <field name="gateway_id"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- WhatsApp Template Form View -->
+    <record id="view_whatsapp_template_form" model="ir.ui.view">
+        <field name="name">whatsapp.template.form</field>
+        <field name="model">whatsapp.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_test_template" type="object" string="Test Template" class="btn-primary"/>
+                    <button name="action_send_template" type="object" string="Send Message" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="gateway_type"/>
+                            <field name="gateway_id" domain="[('type', 'in', ['external_rest', 'meta_cloud_api'] if gateway_type == 'both' else [gateway_type])]"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="media_url"/>
+                            <field name="interactive_type"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Message Body" name="body">
+                            <field name="body" placeholder="Hello ${object.name}, your order ${object.name} is ready!"/>
+                        </page>
+                        <page string="Available Fields" name="fields">
+                            <field name="field_placeholders" readonly="1"/>
+                        </page>
+                        <page string="Preview" name="preview">
+                            <field name="preview_text" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- WhatsApp Template Search View -->
+    <record id="view_whatsapp_template_search" model="ir.ui.view">
+        <field name="name">whatsapp.template.search</field>
+        <field name="model">whatsapp.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="gateway_id"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="archived" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="External REST" name="external_rest" domain="[('gateway_type', 'in', ['external_rest', 'both'])]"/>
+                <filter string="Meta Cloud API" name="meta_cloud_api" domain="[('gateway_type', 'in', ['meta_cloud_api', 'both'])]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Model" name="group_model" context="{'group_by': 'model_id'}"/>
+                    <filter string="Gateway Type" name="group_gateway_type" context="{'group_by': 'gateway_type'}"/>
+                    <filter string="Gateway" name="group_gateway" context="{'group_by': 'gateway_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for Templates -->
+    <record id="action_whatsapp_template" model="ir.actions.act_window">
+        <field name="name">WhatsApp Templates</field>
+        <field name="res_model">whatsapp.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_whatsapp_template_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first WhatsApp Template!
+            </p>
+            <p>
+                Templates allow you to create reusable message formats with dynamic content
+                that can be automatically filled with data from your Odoo records.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_whatsapp_template" 
+              name="Message Templates" 
+              parent="menu_whatsapp_templates" 
+              action="action_whatsapp_template" 
+              sequence="10"/>
+</odoo>

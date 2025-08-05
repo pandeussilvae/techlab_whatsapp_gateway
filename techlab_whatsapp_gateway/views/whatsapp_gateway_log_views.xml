@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- WhatsApp Gateway Log Tree View -->
+    <record id="view_whatsapp_gateway_log_tree" model="ir.ui.view">
+        <field name="name">whatsapp.gateway.log.tree</field>
+        <field name="model">whatsapp.gateway.log</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="status == 'success'" decoration-danger="status == 'error'">
+                <field name="timestamp"/>
+                <field name="gateway_id"/>
+                <field name="type"/>
+                <field name="phone_number"/>
+                <field name="status"/>
+                <field name="response_code"/>
+                <field name="res_name"/>
+                <field name="message" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- WhatsApp Gateway Log Form View -->
+    <record id="view_whatsapp_gateway_log_form" model="ir.ui.view">
+        <field name="name">whatsapp.gateway.log.form</field>
+        <field name="model">whatsapp.gateway.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_retry_send" type="object" string="Retry" class="btn-primary" attrs="{'invisible': [('status', '=', 'success')]}"/>
+                    <button name="action_view_source_record" type="object" string="View Source Record" class="btn-secondary" attrs="{'invisible': ['|', ('res_model', '=', False), ('res_id', '=', False)]}"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="gateway_id"/>
+                            <field name="type"/>
+                            <field name="phone_number"/>
+                            <field name="timestamp"/>
+                        </group>
+                        <group>
+                            <field name="response_code"/>
+                            <field name="res_model"/>
+                            <field name="res_id"/>
+                            <field name="res_name"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Message Content" name="message">
+                            <field name="message"/>
+                        </page>
+                        <page string="Response" name="response">
+                            <field name="response_body"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- WhatsApp Gateway Log Search View -->
+    <record id="view_whatsapp_gateway_log_search" model="ir.ui.view">
+        <field name="name">whatsapp.gateway.log.search</field>
+        <field name="model">whatsapp.gateway.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="gateway_id"/>
+                <field name="phone_number"/>
+                <field name="message"/>
+                <field name="res_name"/>
+                <filter string="Success" name="success" domain="[('status', '=', 'success')]"/>
+                <filter string="Error" name="error" domain="[('status', '=', 'error')]"/>
+                <separator/>
+                <filter string="External REST" name="external_rest" domain="[('type', '=', 'external_rest')]"/>
+                <filter string="Meta Cloud API" name="meta_cloud_api" domain="[('type', '=', 'meta_cloud_api')]"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('timestamp', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+                <filter string="Last 7 Days" name="last_week" domain="[('timestamp', '&gt;=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Gateway" name="group_gateway" context="{'group_by': 'gateway_id'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'type'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'timestamp:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for Gateway Logs -->
+    <record id="action_whatsapp_gateway_log" model="ir.actions.act_window">
+        <field name="name">WhatsApp Message Logs</field>
+        <field name="res_model">whatsapp.gateway.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_whatsapp_gateway_log_search"/>
+        <field name="context">{'search_default_today': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No WhatsApp messages sent yet!
+            </p>
+            <p>
+                This view shows all WhatsApp messages sent through your gateways.
+                You can monitor delivery status and retry failed messages.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_whatsapp_gateway_log" 
+              name="All Messages" 
+              parent="menu_whatsapp_logs" 
+              action="action_whatsapp_gateway_log" 
+              sequence="10"/>
+</odoo>

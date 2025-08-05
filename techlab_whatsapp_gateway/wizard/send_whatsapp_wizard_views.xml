@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Send WhatsApp Wizard Form View -->
+    <record id="view_whatsapp_send_wizard_form" model="ir.ui.view">
+        <field name="name">whatsapp.send.wizard.form</field>
+        <field name="model">whatsapp.send.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_send_message" type="object" string="Send Message" class="btn-primary"/>
+                    <button name="action_preview_message" type="object" string="Preview" class="btn-secondary"/>
+                    <button name="action_test_gateway" type="object" string="Test Gateway" class="btn-info"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert" attrs="{'invisible': [('res_name', '=', '')]}">
+                        <strong>Sending message for:</strong> <field name="res_name" readonly="1"/>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="gateway_id" required="1"/>
+                            <field name="template_id" domain="[('model_name', '=', res_model)]" attrs="{'domain': [('model_name', '=', res_model)] if res_model else []}"/>
+                            <field name="phone_number" required="1"/>
+                        </group>
+                        <group>
+                            <field name="res_model" invisible="1"/>
+                            <field name="res_id" invisible="1"/>
+                            <field name="show_template_fields" invisible="1"/>
+                        </group>
+                    </group>
+                    
+                    <group attrs="{'invisible': [('show_template_fields', '=', False)]}">
+                        <field name="template_preview" readonly="1"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Message" name="message">
+                            <field name="message" required="1" placeholder="Enter your WhatsApp message here..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for Send WhatsApp Wizard -->
+    <record id="action_whatsapp_send_wizard" model="ir.actions.act_window">
+        <field name="name">Send WhatsApp Message</field>
+        <field name="res_model">whatsapp.send.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
