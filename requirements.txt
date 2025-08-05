@@ -1,0 +1,22 @@
+# Requirements for TechLab WhatsApp Gateway Odoo Module
+# This file specifies the Python dependencies needed for the WhatsApp Gateway module
+
+# HTTP library for making API requests to WhatsApp gateways
+requests>=2.28.0
+
+# Odoo framework (if running standalone)
+# Note: In most cases, Odoo is installed separately and not via pip
+# Uncomment the following line if you need to install Odoo via pip
+# odoo>=18.0
+
+# Optional: Enhanced HTTP client with better performance
+# urllib3>=1.26.0
+
+# Optional: JSON handling improvements
+# ujson>=5.0.0
+
+# Development dependencies (uncomment if needed for development)
+# pytest>=7.0.0
+# pytest-cov>=4.0.0
+# black>=22.0.0
+# flake8>=5.0.0
